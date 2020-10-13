@@ -1,0 +1,173 @@
+---
+title: "Making Graphs in R Using ggplot2: Quiz & Exercises"
+output: 
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    df_print: default
+runtime: shiny_prerendered
+description: >
+  Learn about the basic syntax of R.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(ggplot2)
+tutorial_options(exercise.timelimit = 10)
+Pulse<-readRDS("Pulse.RDS")
+
+```
+
+
+## Quiz 
+
+*Question 1*
+```{r Q1, echo=FALSE}
+question("Which part of the ggplot code specifices the mapping of columns from the data onto different attributes of the plot?",
+  answer("aesthetic",correct=TRUE),
+  answer("geom"),
+  answer("theme"),
+  answer("scale"),allow_retry = TRUE,random_answer_order = TRUE
+)
+```
+
+
+
+*Question 2*
+
+```
+ggplot(data=Pulse,aes(x=Age))+
+geom_hist()
+
+
+```
+
+```{r Q2, echo=FALSE}
+question("Why have I got an error from trying to run the code above?",
+  answer("Age is a categorical variable in the data so cannot be plotted in a histogram",message="There is a categorical variable in the data for Age, but this is called 'AgeGrp'. Age is a continuous variable"),
+  answer("The function should be 'geom_histogram' not 'geom_hist'",correct=TRUE),
+  answer("There are too many brackets being closed at the end of the first line of code"),
+  answer("geom_hist requires a y aesthetic"),allow_retry = TRUE,random_answer_order = TRUE
+)
+```
+
+
+*Question 3*
+
+```{r}
+ggplot(data=Pulse,aes(x=PoliticalParty))+
+  geom_bar()
+```
+
+```{r Q3, echo=FALSE}
+question("I have written the code above to produce a bar chart of the frequency of policital party of the respondents. I would like to make the bar for 'Democrat' appear shaded in blue, 'Independent' shaded in grey and 'Republican' shaded in red. What part(s) of my code should I modify?",
+  answer("Include 'colour=c('blue','grey','red') within the geom_bar line"),
+  answer("Include 'fill=c('blue','grey','red') within the geom_bar line"),
+  answer("Include 'colour=PoliticalParty' within the aesthetic and add an extra line using scale_colour_manual"),
+  answer("Include 'fill=PoliticalParty' within the aesthetic and add an extra line using scale_fill_manual",correct=TRUE),allow_retry = TRUE,random_answer_order = TRUE
+)
+```
+
+
+*Question 4* 
+ 
+ 
+```{r q4_plot,echo=FALSE}
+
+ggplot(data=Pulse,aes(x=PoliticalParty))+
+  geom_bar()+
+    facet_wrap(~Gender)
+```
+ 
+ 
+```{r Q4, echo=FALSE}
+
+
+question("What code was used to produce the graph above?",
+  answer(paste("ggplot(data=Pulse,aes(x=PoliticalView))","geom_bar()","facet_wrap(~Gender)<br>",sep="<br>")),
+  answer(paste("ggplot(data=Pulse,aes(x=PoliticalParty))","geom_barchart()","facet(~Gender)<br>",sep="<br>")),
+  answer(paste("ggplot(data=Pulse,aes(x=PoliticalView)) +","geom_barchart() +","facet_wrap(Gender)<br>",sep="<br>")),
+  answer(paste("ggplot(data=Pulse,aes(x=PoliticalParty)) +","geom_bar() +","facet_wrap(~Gender)<br>",sep="<br>"),correct=TRUE),allow_retry = TRUE,random_answer_order = TRUE
+)
+```
+``
+
+
+## Exercises  
+
+**Exercise 1. Fix the error(s) in this code to produce a boxplot of attractiveness by age group**
+
+```{r ex1,exercise=TRUE,error=TRUE}
+ggplot2(data = Pulse,  aes(x = agegroup, y = attractiveness) 
+  geom_boxplot()
+```
+
+**Exercise 2. Produce a bar chart showing the frequencies of the Race variable**
+
+```{r ex2,exercise=TRUE}
+
+```
+
+**Exercise 3. Continuing the previous example, use facets to make separate bar charts of race by political party**
+
+```{r ex3,exercise=TRUE}
+
+```
+
+**Exercise 4. Produce a set of boxplots of attractiveness by age group, with separate panels for each gender. Use some colours and add sensible titles and labels**
+
+```{r ex4,exercise=TRUE}
+
+```
+
+**Exercise 5. Produce a graph to investigate whether there is a relationship between income, on the y axis, and attractiveness, on the x axis. Use different colours for each political party, a log axis for income and add in some sensible titles and labels. You also might want to consider using more than one layer.**
+
+```{r ex5,exercise=TRUE}
+```
+
+
+Solutions to these exercises will be made available when the next module of the course becomes live. Check the course site for details. 
+
+## Appendix: 'Pulse' dataset 
+
+The data we are using in this session is an extract of a survey conducted in the US in June 2018, as part of the Pulse of the Nation series of surveys. This survey was a representative sample of the American population. You can read more about the survey (and others from the same series) <a href="https://thepulseofthenation.com" target="_blank">here</a>. The data has been cleaned and edited slightly for use in this course.
+
+The dataset contains an extract of 356 responses to 10 of the survey questions, and has been imported to R as a data frame called `Pulse`.
+
+A summary of the columns in the dataset is below.
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
+library(tidyverse)
+library(knitr)
+
+data.frame(Column=c("Gender","Age","AgeGrp","Race","Income","Education","PoliticalParty","PoliticalView","ApproveTrump","Attractiveness"),
+           Description=c("What gender do you identify with?","What is your age?","Age range","What is your race?",
+                         "About how much money do you make per year? (USD)","What is your highest level of education?",
+                         "In politics today, do you consider yourself a Democrat, a Republican, or Independent?",
+                         "Would you say you are liberal, conservative, or moderate?",
+                         "Do you approve, disapprove, or neither approve nor disapprove of how Donald Trump is handling his job as president?",
+                        "On a scale of 1-10, how physically attractive do you consider yourself?")) %>% kable()
+
+```
+
+
+```{r,echo=FALSE}
+DT::datatable(Pulse)
+```
+
+(You can use the arrow keys on your keyboard to scroll right in case the data table does not fit entirely on your screen)
+
+## Appendix:  Useful reference links  
+
+R Graphics Cookbook: <a href="http://www.cookbook-r.com/Graphs/" target="_blank">http://www.cookbook-r.com/Graphs/</a> 
+
+ggplot2 CheatSheet:<a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" target="_blank">https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf   </a>  
+
+R Color Chart: <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf" target="_blank">http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf     </a>   
+
+ggplot2 manuals (warning - technical and slightly pretentious. First line "ggplot2... embodies a deep philosophy of visualisation"): <a href="https://ggplot2.tidyverse.org/" target="_blank">https://ggplot2.tidyverse.org/     </a>     
+
+Plotting with ggplot - Roger Peng videos:
+<a href="https://www.youtube.com/watch?v=HeqHMM4ziXA" target="_blank">Part 1    </a>  
+<a href="https://www.youtube.com/watch?v=n8kYa9vu1l8" target="_blank">Part 2 </a>  
+
